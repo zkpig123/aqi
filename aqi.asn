@@ -1,0 +1,52 @@
+Aqi DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN
+
+Pdu ::= SEQUENCE
+{
+	pdu-type ENUMERATED {datapdu, replypdu},
+	pdu-packet PduPacket,
+	pdu-packet-number INTEGER (0..MAX),
+	site ENUMERATED {tyg, tsg, invalid-site, ...},
+	...
+}
+PduPacket::= CHOICE
+{
+	monitor-data-packet MonitorDataPacket,
+	monitor-data-reply ENUMERATED {success,invalid,...},
+	...
+}
+
+MonitorDataPacket ::= SEQUENCE
+{
+	monitor-data-unit-count INTEGER (0..MAX),
+	monitor-data-units MonitorData,
+	...
+}
+MonitorData ::= SEQUENCE OF MonitorDataItem (10)
+MonitorDataItem ::= SEQUENCE
+{
+	datetime DateTime,
+	type ENUMERATED {so2(0), no2, o3, co, pm10, pm25, o3-8h, o3-8h-max, o3-1h-max, wind-velocity, ambient-temperature, humidity, atom-pressure, wind-direction, room-temperature, doas-light-insensity, doas-monitor-status, doas-integral-time, doas-average-count, doas-optical-path, doas-so2-sig-noise-ratio, doas-no2-sig-noise-ratio, doas-o3-sig-noise-ratio, doas-sig-noise-ratio, doas-pda-status, doas-elec-machine-status, doas-adjust-poll-pos, doas-mercury-lamp-pos, doas-mercury-lamp-power, invalid-type},
+	monitor-unit ENUMERATED {milli-gram-per-m3(0), micro-gram-per-m3(1)},
+	monitor-value MonitorValue,
+	...
+}
+MonitorValue ::= SEQUENCE
+{
+	sign ENUMERATED {negative(-1), positive(1)},
+	integral INTEGER (0..999999999),
+	fraction INTEGER (0..999999999),
+	...
+}
+DateTime ::= SEQUENCE
+{
+	year INTEGER (0..9999),
+	month INTEGER (1..12),
+	day INTEGER (1..31),
+	hour INTEGER (0..23),
+	minute INTEGER (0..59),
+	second INTEGER (0..61),
+	...
+}
+
+END
