@@ -11,7 +11,7 @@ ssize_t char_count_gbk (char *str, size_t bytes)
 {
 	ssize_t count;
 	unsigned char *start, *end;
-	if (NULL == str || bytes <= 0) return -1;
+	//if (NULL == str || bytes <= 0) return -1;
 	size_t len;
 	len = strlen (str);
 	if (len < bytes) bytes = len;
@@ -43,7 +43,7 @@ ssize_t char_count_gbk (char *str, size_t bytes)
 ssize_t char_count_gbk_bin (char *str, size_t bytes)
 {
 	ssize_t count;
-	if (NULL == str || bytes <= 0) return -1;
+	//if (NULL == str || bytes <= 0) return -1;
 	size_t len;
 	len = strlen (str);
 	if (len < bytes) bytes = len;
@@ -73,7 +73,7 @@ ssize_t char_count_gbk_bin (char *str, size_t bytes)
 //byte count of gbk string non including terminating nul,bytes not including the terminating null return -1 if arg invalid, return -2 if character invalid or unprintable
 ssize_t byte_count_gbk (char *str, size_t bytes)
 {
-	if (NULL == str || bytes <= 0) return -1;
+	//if (NULL == str || bytes <= 0) return -1;
 	unsigned char *start = (unsigned char*)str;
 	unsigned char *end = start + bytes - 1;
 	unsigned char *ch;
@@ -103,7 +103,7 @@ ssize_t byte_count_gbk (char *str, size_t bytes)
 //byte count of gbk string not including terminating null,bytes not including the terminating null, return -1 if arg invalid, return -2 if character invalid
 ssize_t byte_count_gbk_bin (char *str, size_t bytes)
 {
-	if (NULL == str || bytes <= 0) return -1;
+	// if (NULL == str || bytes <= 0) return -1;
 	unsigned char *start = (unsigned char*)str;
 	unsigned char *end = start + bytes - 1;
 	unsigned char *ch;
@@ -132,7 +132,7 @@ ssize_t byte_count_gbk_bin (char *str, size_t bytes)
 //check whether encoding of specified gbk string is valid, bytes not including the terminating null,return 0 if valid, return 1 if containing unprintable character,invalid when return other value
 int char_check_gbk (char *str, size_t bytes)
 {
-	if (NULL == str || bytes <= 0) return 2;
+	//if (NULL == str || bytes <= 0) return 2;
 	unsigned char *start = (unsigned char*)str;
 	unsigned char *end = start + bytes - 1;
 	int have_unprintable_char = 0;
@@ -196,7 +196,7 @@ ssize_t char_pos_gbk (char *str, size_t bytes1, char *target, size_t bytes2)
 */
 ssize_t byte_pos_gbk (char *str, size_t bytes1, char *target, size_t bytes2)
 {
-	if (NULL == str || bytes1 <= 0 || bytes2 <= 0 || NULL == target || bytes1 < bytes2 ) return -1;
+	//if (NULL == str || bytes1 <= 0 || bytes2 <= 0 || NULL == target || bytes1 < bytes2 ) return -1;
 	unsigned char *start = (unsigned char*)str;
 	unsigned char *end = start + bytes1 - 1 - bytes2;
 	if (char_check_gbk (target, bytes2)) return -2;
@@ -344,7 +344,7 @@ ssize_t fgets_gbk (char *str, size_t bytes, FILE* stream, size_t *characters_cou
 	char *end = str + bytes; //position after last character in str
 	uint16_t value;
 	size_t char_count;
-	if (stream == NULL || str == NULL || bytes <= 0) return -2; //arg invalid
+	//if (stream == NULL || str == NULL || bytes <= 0) return -2; //arg invalid
 	for (cur_pos = str, char_count = 0; cur_pos < end;)
 	{
 		if (cur_pos == end - 1)
@@ -410,7 +410,7 @@ ssize_t fgets_gbk_bin (char *str, size_t bytes, FILE* stream, size_t *characters
 	char *end = str + bytes;
 	uint16_t value;
 	size_t char_count;
-	if (stream == NULL) return -2; //stream is null
+	//if (stream == NULL) return -2; //stream is null
 	for (cur_pos = str, char_count = 0; cur_pos < end;)
 	{
 		if (cur_pos == end - 1)

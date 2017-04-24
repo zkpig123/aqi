@@ -4,7 +4,7 @@ int check_ip_addr (char *addr)
 {
 	int dot_count, colon, ipv6;
 	char *ch;
-	if (addr == NULL) return -1;
+	//if (addr == NULL) return -1;
 	if (addr[0] == '.' || addr[0] == ':') return 1;
 	for (ch = addr, dot_count = 0, colon = 0, ipv6 = 0; *ch != '\0'; ch++)
 	{
@@ -58,7 +58,7 @@ int check_port (char *port)
 {
 	char *ch;
 	long p;
-	if (port == NULL) return -1;
+	//if (port == NULL) return -1;
 	for (ch = port, p = 0; *ch != '\0'; ch++)
 	{
 		if (!isdigit (*ch)) return 1;
@@ -72,7 +72,7 @@ int check_path_part (char *part, int bytes, int *part_len)
 {
 	char *c;
 	int has_dot, fn_len, exten_len;
-	if (part == NULL) return -1;
+	//if (part == NULL) return -1;
 	for (c = part, has_dot = 0, fn_len = 0, exten_len = 0; *c != '\0' && c - part < bytes; c++)
 	{
 		if (*c == '.')
@@ -107,7 +107,7 @@ int check_path (char *pathname)
 	int path_len, fn_len, exten_len; //path len, filename len, file extension name len
 	char *back_slash;
 	char *ch, *c;
-	if (pathname == NULL || pathname[0] == '\0') return -1;
+	//if (pathname == NULL || pathname[0] == '\0') return -1;
 	path_len = 0;
 	ch = pathname;
 	if (ch[1] == ':')
@@ -190,7 +190,7 @@ int init_server_socket_stream (char *serv_addr, char *serv_type, SOCKET *socket)
 	int yes = TRUE;
 	SOCKET sock;
 
-	if (serv_type == NULL) return -1;
+	//if (serv_type == NULL) return -1;
 	memset (&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -238,7 +238,7 @@ int init_server_overlapped_socket_stream (char *serv_addr, char *serv_type, SOCK
 	SOCKET sock;
 	int rv;
 
-	if (serv_type == NULL) return -1;
+	//if (serv_type == NULL) return -1;
 	memset (&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;

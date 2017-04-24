@@ -57,9 +57,9 @@ MYSQL* get_mysql_connection_arg (char *server, char *mysql_user,
 	MYSQL *mysql = NULL;
 
 	//check arg
-	if (server == NULL || mysql_user == NULL 
+	/*if (server == NULL || mysql_user == NULL 
 	|| password == NULL || database == NULL
-	|| port < 1024 || client_charset == NULL) return NULL;
+	|| port < 1024 || client_charset == NULL) return NULL;*/
 	if ((mysql = mysql_init(NULL)) == NULL) return NULL; //return NULL if error
 	if (mysql_options (mysql, MYSQL_SET_CHARSET_NAME, client_charset))
 	{
@@ -82,11 +82,11 @@ MYSQL* get_mysql_connection_arg (char *server, char *mysql_user,
  */
 size_t get_mysql_connection_max_allowed_packet_bytes (MYSQL *mysql)
 { 
-	if (mysql == NULL)
+	/*if (mysql == NULL)
 	{
 		fprintf (stderr, "get_mysql_connection_max_allowed_packet err:mysql is null");
 		return 0;
-	}
+	}*/
 #ifdef MYSQL_OPT_MAX_ALLOWED_PACKET
 	unsigned long packet;
 	if (mysql_get_option (mysql, MYSQL_OPT_MAX_ALLOWED_PACKET, &packet))
@@ -237,7 +237,7 @@ int create_table_raw (uint16_t year, uint16_t month, uint16_t day, enum SITE sit
 	int ret;
 	
 	//check arg
-	if (mysql == NULL || check_year_month_day (year, month, day) || check_site (sitetype)) return 1; //arg invalid
+	/*if (mysql == NULL || check_year_month_day (year, month, day) || check_site (sitetype)) return 1; //arg invalid*/
 	if ((site = get_site_name (sitetype)) == NULL) return 2;
 	
 	//construct the insert query
@@ -298,7 +298,7 @@ int create_table_hour_average (uint16_t year, uint16_t month, enum SITE sitetype
 	char *site;
 	
 	//check arg
-	if (mysql == NULL || check_year_month_day (year, month, 0) || check_site (sitetype)) return 1; //arg invalid
+	//if (mysql == NULL || check_year_month_day (year, month, 0) || check_site (sitetype)) return 1; //arg invalid
 	if ((site = get_site_name (sitetype)) == NULL) return 1;
 	
 	//construct the insert query
@@ -377,7 +377,7 @@ int check_raw_table_exist (int year, int month, int day, char *site, MYSQL *mysq
 	int ret;
 
 	//check arg
-	if (check_year_month_day (year, month, day) || mysql == NULL || site == NULL) return 1; //arg invalid
+	//if (check_year_month_day (year, month, day) || mysql == NULL || site == NULL) return 1; //arg invalid
 	query_len = strlen ("SHOW TABLES LIKE '") + strlen (site) + strlen ("_") + strlen (RAW_TABLE_NAME_PREFIX) + strlen ("YYYYMMDD") + 1;
 	name_len = strlen (site) + strlen ("_raw_YYYYMMDD") + 1;
 	if ((query = malloc (query_len)) == NULL || (name = malloc (name_len)) == NULL) return 2;
@@ -432,7 +432,7 @@ int create_table_day_average (enum SITE sitetype, MYSQL *mysql)
 	int ret;
 	
 	//check arg
-	if (mysql == NULL || check_site (sitetype)) return 1; //arg invalid
+	//if (mysql == NULL || check_site (sitetype)) return 1; //arg invalid
 	if ((site = get_site_name (sitetype)) == NULL) return 6;
 	
 	//construct the insert query
@@ -492,7 +492,7 @@ int create_table_O3_8h_moving_average_max (enum SITE sitetype, MYSQL *mysql)
 	char *site;
 	size_t len;
 	int ret;
-	if (check_site (sitetype) || mysql == NULL) return -1;
+	//if (check_site (sitetype) || mysql == NULL) return -1;
 	if ((site = get_site_name (sitetype)) == NULL) return -1;
 	len = strlen ("CREATE TABLE IF NOT EXISTS ") + strlen (site) + strlen (O3_8H_MOVING_AVERAGE_MAX_TABLE_NAME_SUFFIX) + strlen (" (\
 day date NOT NULL,\
@@ -538,7 +538,7 @@ int create_table_O3_8h_moving_average (uint16_t year, uint16_t month, enum SITE 
 	int ret;
 	
 	//check arg
-	if (mysql == NULL || year > 9999 || check_site (sitetype)) return 1; //arg invalid
+	//if (mysql == NULL || year > 9999 || check_site (sitetype)) return 1; //arg invalid
 	if ((site = get_site_name (sitetype)) == NULL) return 6;
 	
 	//construct the insert query
@@ -589,7 +589,7 @@ int create_table_O3_1h_max (enum SITE sitetype, MYSQL *mysql)
 	size_t len;
 	char *site;
 	int ret;
-	if (check_site (sitetype) || mysql == NULL) return -1; //arg invalid
+	//if (check_site (sitetype) || mysql == NULL) return -1; //arg invalid
 	if ((site = get_site_name (sitetype)) == NULL) return -1;
 	len = strlen ("CREATE TABLE IF NOT EXISTS ") + strlen (site) + strlen (O3_1H_MAX_TABLE_NAME_SUFFIX) + strlen (" (\
 day date NOT NULL,\
@@ -625,10 +625,7 @@ PRIMARY KEY (day)) ENGINE=InnoDB DEFAULT CHARSET=gbk", site, O3_1H_MAX_TABLE_NAM
 //check whether given table exist, return 1 if exist, 0 not exist, other indicating an error
 int is_table_exist (char *table, MYSQL *mysql)
 {
-	if (table == NULL || mysql == NULL)
-	{
-		return 2; //return 2 if arg invalid
-	}
+	//if (table == NULL || mysql == NULL) return 2; //return 2 if arg invalid
 
 	//prepare query string
 	size_t len = strlen ("SHOW TABLES LIKE '") + strlen (table) + strlen ("'") + 1;
@@ -681,7 +678,7 @@ char *construct_hour_average_table_lock_mysql_query (uint16_t year, uint16_t mon
 	size_t len;
 	int ret;
 	char *site;
-	if (year > 9999 || month > 12 || month < 1 || check_site (sitetype)) return NULL;
+	//if (year > 9999 || month > 12 || month < 1 || check_site (sitetype)) return NULL;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	len = strlen ("LOCK TABLES ") + SITENAMEMAX + strlen ("_") + strlen (HOUR_AVERAGE_TABLE_NAME_PREFIX) + strlen ("YYYYMM WRITE");
 	if ((query = malloc (len)) == NULL) return NULL;
@@ -702,7 +699,7 @@ char *construct_day_average_table_lock_mysql_query (enum SITE sitetype)
 	size_t len;
 	int ret;
 	char *site;
-	if (check_site (sitetype)) return NULL;
+	//if (check_site (sitetype)) return NULL;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	len = strlen ("LOCK TABLES ") + SITENAMEMAX + strlen (DAY_AVERAGE_TABLE_NAME_SUFFIX) + strlen (" WRITE");
 	if ((query = malloc (len)) == NULL) return NULL;
@@ -724,7 +721,7 @@ char *construct_O3_moving_average_table_lock_mysql_query (enum SITE sitetype, ui
 	size_t len;
 	int ret;
 	char *site;
-	if (check_site (sitetype)) return NULL;
+	//if (check_site (sitetype)) return NULL;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	len = strlen ("LOCK TABLES ") + SITENAMEMAX + strlen ("_") + strlen (O3_8H_MOVING_AVERAGE_TABLE_NAME_PREFIX) + strlen ("YYYYMM") + strlen (" WRITE") + 1;
 	if ((query = malloc (len)) == NULL) return NULL;
@@ -745,7 +742,7 @@ char *construct_O3_1h_max_table_lock_mysql_query (enum SITE sitetype)
 	size_t len;
 	int ret;
 	char *site;
-	if (check_site (sitetype)) return NULL;
+	//if (check_site (sitetype)) return NULL;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	len = strlen ("LOCK TABLES ") + SITENAMEMAX + strlen (O3_1H_MAX_TABLE_NAME_SUFFIX) + strlen (" WRITE");
 	if ((query = malloc (len)) == NULL) return NULL;
@@ -763,7 +760,7 @@ char *construct_O3_moving_average_max_table_lock_mysql_query (enum SITE sitetype
 	size_t len;
 	int ret;
 	char *site;
-	if (check_site (sitetype)) return NULL;
+	//if (check_site (sitetype)) return NULL;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	len = strlen ("LOCK TABLES ") + SITENAMEMAX + strlen (O3_8H_MOVING_AVERAGE_MAX_TABLE_NAME_SUFFIX) + strlen (" WRITE");
 	if ((query = malloc (len)) == NULL) return NULL;

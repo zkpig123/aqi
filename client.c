@@ -10,7 +10,7 @@ int open_file_handle (char *fn, DWORD access_mode, DWORD share_mode, HANDLE *han
 {
 	HANDLE fh;
 	DWORD ret;
-	if (fn == NULL) return -1;
+	//if (fn == NULL) return -1;
 	switch (share_mode)
 	{
 		case FILE_SHARE_READ: case FILE_SHARE_WRITE: case FILE_SHARE_READ | FILE_SHARE_WRITE: case 0:
@@ -64,7 +64,7 @@ int check_port (char *port)
 {
 	char *ch;
 	long p;
-	if (port == NULL) return -1;
+	//if (port == NULL) return -1;
 	for (ch = port, p = 0; *ch != '\0'; ch++)
 	{
 		if (!isdigit (*ch)) return 1;
@@ -78,7 +78,7 @@ int check_ip_addr (char *addr)
 {
 	int dot_count, colon, ipv6;
 	char *ch;
-	if (addr == NULL) return -1;
+	//if (addr == NULL) return -1;
 	if (addr[0] == '.' || addr[0] == ':') return 1;
 	for (ch = addr, dot_count = 0, colon = 0, ipv6 = 0; *ch != '\0'; ch++)
 	{
@@ -120,7 +120,7 @@ int check_path (char *pathname)
 	int path_len, fn_len, exten_len; //path len, filename len, file extension name len
 	char *back_slash;
 	char *ch, *c;
-	if (pathname == NULL || pathname[0] == '\0') return -1;
+	//if (pathname == NULL || pathname[0] == '\0') return -1;
 	path_len = 0;
 	ch = pathname;
 	if (ch[1] == ':')
@@ -157,7 +157,7 @@ int check_path_part (char *part, int bytes, int *part_len)
 {
 	char *c;
 	int has_dot, fn_len, exten_len;
-	if (part == NULL) return -1;
+	//if (part == NULL) return -1;
 	for (c = part, has_dot = 0, fn_len = 0, exten_len = 0; *c != '\0' && c - part < bytes; c++)
 	{
 		if (*c == '.')
@@ -207,7 +207,7 @@ int is_valid_path_char (int ch)
 
 int lock_file_region (HANDLE fh, DWORD pos_low, DWORD pos_high, DWORD lock_low, DWORD lock_high)
 {
-	if (fh == INVALID_HANDLE_VALUE || (lock_low == 0 && lock_high == 0)) return -1;
+	//if (fh == INVALID_HANDLE_VALUE || (lock_low == 0 && lock_high == 0)) return -1;
 	if (!LockFile (fh, pos_low, pos_high, lock_low, lock_high))
 	{
 		fprintf (stderr, "LockFile file failed. exit. line:%ld\n", __LINE__);
@@ -218,7 +218,7 @@ int lock_file_region (HANDLE fh, DWORD pos_low, DWORD pos_high, DWORD lock_low, 
 
 int unlock_file_region (HANDLE fh, DWORD pos_low, DWORD pos_high, DWORD lock_low, DWORD lock_high)
 {
-	if (fh == INVALID_HANDLE_VALUE || (lock_low == 0 && lock_high == 0)) return -1;
+	//if (fh == INVALID_HANDLE_VALUE || (lock_low == 0 && lock_high == 0)) return -1;
 	if (!UnlockFile (fh, pos_low, pos_high, lock_low, lock_high))
 	{
 		fprintf (stderr, "UnlockFile file failed. exit. err:%lu, line:%ld\n", GetLastError (), __LINE__);

@@ -10,8 +10,8 @@
  */
 char * get_value_of_IAQI_BOUNDARY (enum IAQI_TYPE iaqi_type, int16_t iaqi)
 {
-	if (check_iaqi_type (iaqi_type)) return NULL; //invalid iaqi_type
-	if (check_aqi (iaqi)) return NULL; //invalid iaqi
+	//if (check_iaqi_type (iaqi_type)) return NULL; //invalid iaqi_type
+	//if (check_aqi (iaqi)) return NULL; //invalid iaqi
 	if (iaqi == 0) return NULL;
 	if (iaqi_type == IAQI_SO2_1H)
 	{
@@ -549,13 +549,13 @@ int calc_IAQI (enum IAQI_TYPE iaqi_type, char* value)
 	int iaqi_low, iaqi_high, ret, compare;
 	char *value_iaqi_50, *value_iaqi_100, *value_iaqi_150, *value_iaqi_200, *value_iaqi_300, *value_iaqi_400, *value_iaqi_500;
 	int iaqi;
-	if (check_string_number_of_value (value)) return -1;
-	if (value[0] == '0' && (value[1] == '\0' || (value[1] == '.' && value[2] == '0' && value[3] == '\0'))) return -1;
-	if (value[0] == '-')
+	//if (check_string_number_of_value (value)) return -1;
+	//if (value[0] == '0' && (value[1] == '\0' || (value[1] == '.' && value[2] == '0' && value[3] == '\0'))) return -1;
+	/*if (value[0] == '-')
 	{
 		if (value[1] == '1' && (value[2] == '\0'|| (value[2] == '.' && value[3] == '0' && value[4] == '\0'))) return -2;
 		else return -1;
-	}
+	}*/
 	if ((compare = compare_string_number (value, value_iaqi_50 = get_value_of_IAQI_BOUNDARY (iaqi_type, 50))) == -1 || compare == 0)
 	{
 		value_low = IAQI_0_ALL;
@@ -678,9 +678,9 @@ char * construct_O3_8h_moving_average_insert_string (uint16_t year, uint16_t mon
 	int ret;
 	char *site;
 	int16_t aqi;
-	if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || value == NULL || check_site (sitetype)) return NULL;
+	/*if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || value == NULL || check_site (sitetype)) return NULL;
 	if (reserved_string != NULL) reserved == reserved_string;
-	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 3)) return NULL;
+	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 3)) return NULL;*/
 	char O3_max_string[STRING_NUMBER_BUFSIZ];
 	if ((ret = snprintf (O3_max_string, STRING_NUMBER_BUFSIZ, "%d", O3_MAX)) < 0 || ret + 1 > STRING_NUMBER_BUFSIZ) return NULL;
 	if (compare_string_number (value, O3_max_string) == 1) return NULL;
@@ -740,8 +740,8 @@ char * construct_O3_8h_moving_average_max_from_moving_average_mysql_query (uint1
 	char *site;
 
 	//check arg
-	if (check_year_month_day (year, month, day) || check_site (sitetype)) return NULL;
-	if ((site = get_site_name (sitetype)) == NULL) return NULL;
+	/*if (check_year_month_day (year, month, day) || check_site (sitetype)) return NULL;
+	if ((site = get_site_name (sitetype)) == NULL) return NULL;*/
 	
 	//calc query string len
 	len = strlen ("SELECT value FROM ") + strlen (site) + strlen ("_") + strlen (O3_8H_MOVING_AVERAGE_TABLE_NAME_PREFIX) + strlen ("YYYYMM") + strlen (" WHERE day='YYYY-MM-DD' AND hour BETWEEN 8 AND 24") + 1;
@@ -777,9 +777,9 @@ char * construct_O3_8h_moving_average_max_insert_string (uint16_t year, uint16_t
 	char *site;
 	int16_t aqi;
 
-	if (check_year_month_day (year, month, day) || value == NULL || check_site (sitetype)) return NULL;
+	/*if (check_year_month_day (year, month, day) || value == NULL || check_site (sitetype)) return NULL;
 	if (reserved_string != NULL) reserved == reserved_string;
-	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 5)) return NULL;
+	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 5)) return NULL;*/
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	aqi = calc_IAQI (IAQI_O3_8H_MOVING, value);
 	if (aqi == -1 || aqi == -3 || aqi == -4 || !strncmp (value, "-3", 3) || !strncmp (value, "-3.0", 5)) return NULL;
@@ -838,10 +838,7 @@ char * construct_O3_8h_moving_average_8_hours_mysql_query (uint16_t year, uint16
 	int ret;
 
 	//check arg
-	if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype))
-	{
-		return NULL;
-	}
+	//if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype)) return NULL;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 
 	if (hour >= 8 && hour <= 24)
@@ -919,14 +916,14 @@ char * construct_insert_day_average_mysql_query (uint16_t year, uint16_t month, 
 	char *site;
 	int16_t aqi;
 
-	if (check_year_month_day (year, month, day) || check_site (sitetype) || value == NULL || check_string_number_of_value (value))
+	/*if (check_year_month_day (year, month, day) || check_site (sitetype) || value == NULL || check_string_number_of_value (value))
 	{
 		return NULL;
 	}
 	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 5))
 	{
 		return NULL;
-	}
+	}*/
 	if ((type_string = get_type_name(type)) == NULL)
 	{
 		return NULL;
@@ -1024,10 +1021,10 @@ char * construct_hour_average_insert_mysql_query (uint16_t year, uint16_t month,
 	int16_t aqi;
 	int ret;
 
-	if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype) || check_type_enum (type) || check_audit_type (audit_type) || check_string_number_of_value (value) || check_value_audit_match (value, audit_type))
+	/*if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype) || check_type_enum (type) || check_audit_type (audit_type) || check_string_number_of_value (value) || check_value_audit_match (value, audit_type))
 	{
 		return NULL;
-	}
+	}*/
 	if ((site = get_site_name(sitetype)) == NULL)
 	{
 		return NULL;
@@ -1121,7 +1118,7 @@ static char * construct_PM10_PM25_1hour_retrieve_from_raw_table_mysql_query (uin
 	char *site;
 	int ret;
 
-	if (check_year_month_day (year, month, day) || (type != PM10 && type != PM25) || hour > 24 || check_site (sitetype)) return NULL;
+	// if (check_year_month_day (year, month, day) || (type != PM10 && type != PM25) || hour > 24 || check_site (sitetype)) return NULL;
 	site = get_site_name (sitetype);
 
 	//if query hour a, then query minutes from (a-1):00:00 - (a-1):59:59
@@ -1172,7 +1169,7 @@ static char * construct_1hour_rawdata_retrieve_mysql_query (uint16_t year, uint1
 	char *site;
 	int ret;
 
-	if (check_year_month_day (year, month, day) || check_type_enum (type) || hour > 24 || check_site (sitetype)) return NULL;
+	// if (check_year_month_day (year, month, day) || check_type_enum (type) || hour > 24 || check_site (sitetype)) return NULL;
 	site = get_site_name (sitetype);
 
 	//if query hour a, then query minutes from (a-1):00:00 - (a-1):59:59
@@ -1238,8 +1235,8 @@ char * construct_O3_1h_max_insert_mysql_query (uint16_t year, uint16_t month, ui
 	char *site;
 	int16_t aqi;
 
-	if (check_year_month_day (year, month, day) || value == NULL || check_string_of_value (value) || check_site (sitetype)) return NULL;
-	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 5)) return NULL;
+	/*if (check_year_month_day (year, month, day) || value == NULL || check_string_of_value (value) || check_site (sitetype)) return NULL;
+	if (value[0] == '-' && strncmp (value, "-1", 3) && strncmp (value, "-1.0", 5)) return NULL;*/
 	if (reserved_string != NULL) reserved == reserved_string;
 	if ((site = get_site_name (sitetype)) == NULL) return NULL;
 	aqi = calc_IAQI (IAQI_O3_1H, value);
@@ -1299,7 +1296,7 @@ int query_O3_8h_moving_average_max_from_moving_average (char *query, char *value
 	my_ulonglong num_rows;
 	int valid_hours, ret;
 	
-	if (query == NULL || value == NULL) return -1;
+	//if (query == NULL || value == NULL) return -1;
 	strncpy (value, "-99999", 7);
 	if (mysql_real_query (mysql, query, strlen (query))) return -2;
 	if ((result = mysql_store_result (mysql)) == NULL)
@@ -1386,10 +1383,10 @@ int query_O3_8h_moving_average_from_hour_average (char *query, char *value, MYSQ
 	int valid_hours;
 	//double sum;
 	int ret;
-	if (query == NULL || value == NULL || mysql == NULL)
+	/*if (query == NULL || value == NULL || mysql == NULL)
 	{
 		return -1;
-	}
+	}*/
 
 	if (mysql_real_query (mysql, query, strlen (query)))
 	{
@@ -1482,7 +1479,7 @@ static int query_1hour_rawdata_and_calc_hour_average (char *query, enum TYPE typ
 	value[1] = '\0';
 	//double sum = 0;
 
-	if (value == NULL || bytes < STRING_NUMBER_BUFSIZ || mysql == NULL || query == NULL) return -1;
+	// if (value == NULL || bytes < STRING_NUMBER_BUFSIZ || mysql == NULL || query == NULL) return -1;
 
 	if (mysql_real_query (mysql, query, strlen (query)))
 	{
@@ -1600,7 +1597,7 @@ static int query_PM10_PM25_hour_average_from_raw (char *query, char *value, unsi
 	my_ulonglong values_num;
 	int ret;
 
-	if (value == NULL || mysql == NULL || query == NULL || bytes < STRING_NUMBER_BUFSIZ) return -1;
+	//if (value == NULL || mysql == NULL || query == NULL || bytes < STRING_NUMBER_BUFSIZ) return -1;
 
 	if (mysql_real_query (mysql, query, strlen (query)))
 	{
@@ -1664,7 +1661,7 @@ int query_hour_average_from_1_to_24 (char *query, enum TYPE type, char *value, M
 	int valid_hours;
 	int ret;
 
-	if (query == NULL || value == NULL || mysql == NULL) return -1;
+	// if (query == NULL || value == NULL || mysql == NULL) return -1;
 
 	if (mysql_real_query (mysql, query, strlen (query)))
 	{
@@ -1769,7 +1766,7 @@ int query_O3_1h_max_from_hour_average (char *query, char *value, MYSQL *mysql)
 	my_ulonglong num_rows;
 	int ret;
 	size_t max_len;
-	if (query == NULL || value == NULL) return -1;
+	//if (query == NULL || value == NULL) return -1;
 	max_len = strlen ("-99999") + 1;
 	if ((ret = snprintf (value, max_len, "%s", "-99999")) < 0 || ret + 1 > max_len) return -2;
 
@@ -1851,7 +1848,7 @@ int stat_hour_average (uint16_t year, uint16_t month, uint16_t day, uint16_t hou
 	char *site;
 	int rounding_err = 0;
 
-	if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype) || check_type_enum (type) || mysql == NULL) return -1;
+	//if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype) || check_type_enum (type) || mysql == NULL) return -1;
 	if ((site = get_site_name(sitetype)) == NULL) return -1;
 
 	if (type == PM25 || type == PM10) 
@@ -1940,7 +1937,7 @@ int audit_hour_average (uint16_t year, uint16_t month, uint16_t day, uint16_t ho
 {
 	char *site;
 	char *query;
-	if (check_year_month_day (year, month, day) || hour == 0 || hour > 24 || check_type_enum (type) || check_site (sitetype) || mysql == NULL) return -1; //arg invalid
+	//if (check_year_month_day (year, month, day) || hour == 0 || hour > 24 || check_type_enum (type) || check_site (sitetype) || mysql == NULL) return -1; //arg invalid
 	if ((site = get_site_name (sitetype)) == NULL) return -1;
 	char *reserved = "";
 	if (reserved_string != NULL) reserved = reserved_string;
@@ -2000,7 +1997,7 @@ int stat_day_average (uint16_t year, uint16_t month, uint16_t day, enum TYPE typ
 	char *reserved;
 	char *query;
 	int ret;
-	if (check_year_month_day (year, month, day) || mysql == NULL) return -1;
+	//if (check_year_month_day (year, month, day) || mysql == NULL) return -1;
 	switch (type)
 	{
 		case SO2: case NO2: case CO: case PM10: case PM25:
@@ -2059,7 +2056,7 @@ int stat_O3_1h_max (uint16_t year, uint16_t month, uint16_t day, enum SITE sitet
 {
 	int ret;
 	char *query;
-	if (check_year_month_day (year, month, day) || check_site (sitetype) || mysql == NULL) return -1; //arg invalid
+	//if (check_year_month_day (year, month, day) || check_site (sitetype) || mysql == NULL) return -1; //arg invalid
 
 	char max[STRING_NUMBER_BUFSIZ];
 	//construct 24 hour query string
@@ -2116,7 +2113,7 @@ int stat_O3_8h_moving_average(uint16_t year, uint16_t month, uint16_t day, uint1
 	int ret;
 	char *query;
 	//check arg
-	if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype) || mysql == NULL) return -1;
+	//if (check_year_month_day (year, month, day) || hour > 24 || hour == 0 || check_site (sitetype) || mysql == NULL) return -1;
 
 	//construct hour average query string
 	
@@ -2181,7 +2178,7 @@ int stat_O3_8h_moving_average_max (uint16_t year, uint16_t month, uint16_t day, 
 	char *query;
 	char value[STRING_NUMBER_BUFSIZ];
 
-	if (check_year_month_day (year, month, day) || check_site (sitetype) || mysql == NULL) return -1;
+	//if (check_year_month_day (year, month, day) || check_site (sitetype) || mysql == NULL) return -1;
 
 	//construct O3 8h moving average max from moving average query string and query
 	if ((query = construct_O3_8h_moving_average_max_from_moving_average_mysql_query (year, month, day, sitetype)) == NULL) return -2;

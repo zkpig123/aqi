@@ -465,6 +465,7 @@ int check_string_of_date (char *date)
  */
 int check_string_of_time (char *time)
 {
+	if (time == NULL) return 1;
 	char *pos1, *pos2; //get position of ":"
 	size_t len = strlen (time);
 	char *end = time + len - 1;
@@ -611,7 +612,7 @@ int redirect_stream_to_file (FILE *fp, char *filename)
 */
 uint32_t get_last_day (uint16_t year, uint16_t month, uint16_t day)
 {
-	if (check_year_month_day (year, month, day)) return 0;
+	//if (check_year_month_day (year, month, day)) return 0;
 	if (year == 0 && month == 1 && day == 1) return 0;
 	if (day == 1)
 	{
@@ -646,7 +647,7 @@ uint32_t get_last_day (uint16_t year, uint16_t month, uint16_t day)
 */
 uint32_t get_tomorrow (uint16_t year, uint16_t month, uint16_t day)
 {
-	if (check_year_month_day (year, month, day)) return 0;
+	//if (check_year_month_day (year, month, day)) return 0;
 	if (year == 9999 && month == 12 && day == 31) return 0;
 	if (day == 31)
 	{
@@ -696,7 +697,7 @@ uint32_t get_tomorrow (uint16_t year, uint16_t month, uint16_t day)
 //return corresponding hour or 25 indicating given cur_hour invalid
 unsigned int get_hour_of_x_hours_ago (uint16_t cur_hour, uint16_t hours)
 {
-	if (cur_hour == 0 || cur_hour > 24) return 25;
+	//if (cur_hour == 0 || cur_hour > 24) return 25;
 	for (unsigned int i = 0; i < hours; i++)
 	{
 		if (cur_hour > 1) cur_hour--;
@@ -806,7 +807,7 @@ int check_site (enum SITE site)
  */
 int check_value_audit_match (char *value, enum AUDIT_TYPE audit)
 {
-	if (check_audit_type (audit)) return -1;
+	//if (check_audit_type (audit)) return -1;
 	if (check_string_number_of_value (value)) return -1;
 	switch (audit)
 	{
@@ -1226,10 +1227,10 @@ int add_string_number (char *n1, char *n2, char *sum, unsigned int bytes)
 	char *num1, *num2;
 	int ret, i, j;
 	int lastzero1, lastzero2, lastzero;
-	if (n1 == NULL || n2 == NULL || sum == NULL || bytes < STRING_NUMBER_BUFSIZ || check_string_number_of_value (n1) || check_string_number_of_value (n2))
+	/*if (n1 == NULL || n2 == NULL || sum == NULL || bytes < STRING_NUMBER_BUFSIZ || check_string_number_of_value (n1) || check_string_number_of_value (n2))
 	{
 		return -1;
-	}
+	}*/
 	num1 = n1;
 	num2 = n2;
 	if (num1[0] == '-')
@@ -1457,7 +1458,7 @@ int divide_string_number_char (char *divisor, char *divide, unsigned int accurac
 	int bits, divide_fracs, total_bits, i, ret, divisor_frac_bits, frac_bits_dif, sign;
 	int64_t div1, div2;
 	size_t len1, len2, divisor_int_len;
-	if (divisor == NULL || divisor[0] == '\0' || divide == NULL || accuracy < 0 || accuracy > DATA_FRACTION_LEN || quotient == NULL || bytes < STRING_NUMBER_BUFSIZ || check_string_number_of_value (divisor) || check_string_number_of_value (divide)) return -1;
+	//if (divisor == NULL || divisor[0] == '\0' || divide == NULL || accuracy < 0 || accuracy > DATA_FRACTION_LEN || quotient == NULL || bytes < STRING_NUMBER_BUFSIZ || check_string_number_of_value (divisor) || check_string_number_of_value (divide)) return -1;
 	dot1 = strstr(divisor, ".");
 	dot2 = strstr(divide, ".");
 	if (dot1 == NULL)
@@ -1594,7 +1595,7 @@ int divide_string_number (char *divisor, int32_t divide, unsigned int accuracy, 
 	char *dot;
 	char *div, *quot;
 	int sign = 1;
-	if (divisor == NULL || divisor[0] == '\0' || divide == 0 || accuracy < 0 || accuracy > DATA_FRACTION_LEN || quotient == NULL || bytes < STRING_NUMBER_BUFSIZ || check_string_number_of_value (divisor)) return -1;
+	//if (divisor == NULL || divisor[0] == '\0' || divide == 0 || accuracy < 0 || accuracy > DATA_FRACTION_LEN || quotient == NULL || bytes < STRING_NUMBER_BUFSIZ || check_string_number_of_value (divisor)) return -1;
 	ret = atof (divisor);
 	if (ret < 0) ret = -ret;
 	if (ret <= DATA_ACCURACY)
@@ -1782,7 +1783,7 @@ int compare_string_number (char *value1, char *value2)
 	int dotpos1, dotpos2;
 	int sign1, sign2;
 	sign1 = sign2 = 1;
-	if (value1 == NULL || value2 == NULL || check_string_number_of_value (value1) || check_string_number_of_value (value2)) return -INT_MAX;
+	//if (value1 == NULL || value2 == NULL || check_string_number_of_value (value1) || check_string_number_of_value (value2)) return -INT_MAX;
 	if (value1[0] == '+')
 	{
 		v1 = value1 + 1;
@@ -1955,10 +1956,10 @@ int compare_string_number (char *value1, char *value2)
 int rounding_data (char *value, enum TYPE type)
 {
 	int ret;
-	if (check_type_enum (type) || check_string_number_of_value (value))
+	/*if (check_type_enum (type) || check_string_number_of_value (value))
 	{
 		return -1;
-	}
+	}*/
 	if (( ret = compare_string_number (value, "0")) == 1) return 1;
 	switch (type)
 	{
@@ -2010,7 +2011,7 @@ int multiply_string_number (char *value1, char *value2, char *mul, unsigned byte
 	int sign = 1, ret;
 	int64_t v1, v2, v;
 	int fraction_bits = 0;
-	if (value1 == NULL || value2 == NULL || mul == NULL || check_string_number_of_value (value1) || check_string_number_of_value (value2) || mul == NULL || bytes < STRING_NUMBER_BUFSIZ) return -1;
+	// if (value1 == NULL || value2 == NULL || mul == NULL || check_string_number_of_value (value1) || check_string_number_of_value (value2) || mul == NULL || bytes < STRING_NUMBER_BUFSIZ) return -1;
 	dotpos1 = strstr (value1, ".");
 	dotpos2 = strstr (value2, ".");
 	if (value1[0] == '0' && value1[1] == '\0' || (value2[0] == '0' && value2[1] == '\0'))
@@ -2125,7 +2126,7 @@ int negative_string_number (char *num, unsigned bytes)
 {
 	size_t len = strlen (num);
 	int i;
-	if (num == NULL || len + 1 > bytes || bytes == 0 || check_string_number_of_value (num)) return -1;
+	//if (num == NULL || len + 1 > bytes || bytes == 0 || check_string_number_of_value (num)) return -1;
 	if (num[0] == '0' && num[1] == '\0' || (num[0] == '0' && num[1] == '.' && num[2] == '0' && num[3] == '\0')) return 0;
 	if (len + 1 == bytes)
 	{
@@ -2161,7 +2162,8 @@ int substract_string_number (char *buf1, char *buf2, char *sub, unsigned bytes)
 	char *dot1, *dot2;
 	int64_t v1_int, v2_int, intdif;
 	int64_t *major_int, *minor_int;
-	if (buf1 == NULL || buf2 == NULL || check_string_number_of_value (buf1) || check_string_number_of_value (buf2) || bytes < STRING_NUMBER_BUFSIZ || sub == NULL) return -1;
+
+	//if (buf1 == NULL || buf2 == NULL || check_string_number_of_value (buf1) || check_string_number_of_value (buf2) || bytes < STRING_NUMBER_BUFSIZ || sub == NULL) return -1;
 	strcpy (v1, buf1);
 	strcpy (v2, buf2);
 	eliminate_fraction_string_trailing_zero (v1);

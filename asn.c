@@ -32,12 +32,14 @@ e_type get_asn_type_from_name (char *name)
 
 e_site get_asn_site_type_from_name (char *sitename)
 {
-	if (sitename == NULL) return site_invalid_site;
 	if (!strncmp (sitename, "tyg", strlen ("tyg"))) return site_tyg;
 	if (!strncmp (sitename, "tsg", strlen ("tsg"))) return site_tsg;
 	return site_invalid_site;
 }
 
+/*
+ * caller need to check the arguments
+ */
 char *encode_asn_type (void *type, asn_TYPE_descriptor_t *desc, long *enclen)
 {
 	char *enc;
@@ -47,7 +49,6 @@ char *encode_asn_type (void *type, asn_TYPE_descriptor_t *desc, long *enclen)
 	char errbuf[128];
 	size_t errlen = sizeof (errbuf);
 
-	if (type == NULL || desc == NULL || enclen == NULL) return NULL;
 	if (asn_check_constraints (desc, type, errbuf, &errlen)) return NULL;
 	ec = der_encode (desc, type, NULL, (void*)0);
 	if (ec.encoded == -1) return NULL;
